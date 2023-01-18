@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -8,7 +9,8 @@ public class UIManager : MonoBehaviour
 
     public static UIManager Instance;
 
-    private View _initialView;
+    [SerializeField] [Foldout("Views")] private ViewHUD _viewHUD;
+    
     private View _currentView;
     
     private void Awake()
@@ -21,20 +23,17 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        _currentView = _viewHUD;
     }
 
     public void ChangeCurrentView(View nextView)
     {
-        
+        _currentView.HideView();   
         _currentView = nextView;
+        _currentView.ShowView();
 
     }
 
 }
 
-public struct Views
-{
-    
-    
-    
-}
