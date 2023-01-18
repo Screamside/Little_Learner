@@ -10,6 +10,8 @@ namespace Script.Input
         public readonly GEvent<Vector2> OnClientMove = new();
         public readonly GEvent<bool> OnClientSprint = new();
         public readonly GEvent OnClientMouseLeftClick = new();
+        public readonly GEvent OnClientMouseScrollUp = new();
+        public readonly GEvent OnClientMouseScrollDown = new();
 
         private Inputs _inputs;
         
@@ -33,6 +35,23 @@ namespace Script.Input
             _inputs.Player.Sprint.started += context => OnClientSprint.Invoke(true);
             _inputs.Player.Sprint.canceled += context => OnClientSprint.Invoke(false);
             _inputs.Player.Attack.started += context => OnClientMouseLeftClick.Invoke();
+
+            _inputs.Player.Scroll.performed += context =>
+            {
+                float value = context.ReadValue<float>();
+
+                switch (value)
+                {
+                    case > 0:
+                        OnClientMouseScrollUp.Invoke();
+                        break;
+                    case < 0:
+                        OnClientMouseScrollDown.Invoke();
+                        break;
+                }
+            };
+
+
 
         }
 
