@@ -2,8 +2,12 @@
 
 namespace Script.Tools
 {
-    public class GTool : MonoBehaviour
+    [CreateAssetMenu(fileName = "New Tool", menuName = "Tools")]
+    public class GTool : ScriptableObject
     {
-        
+        public Sprite toolSprite;
+
+        public string Name;
+
     }
 }
