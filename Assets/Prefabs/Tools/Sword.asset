@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17ba4bd4265147928a7c01b80b36a630, type: 3}
-  m_Name: New Tool
+  m_Name: Sword
   m_EditorClassIdentifier: 
-  toolSprite: {fileID: 0}
-  Name: 
+  toolSprite: {fileID: 21300000, guid: 156d35bfca168c144b26e20987082879, type: 3}
+  Name: Sword

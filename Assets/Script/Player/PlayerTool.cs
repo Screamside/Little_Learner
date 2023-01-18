@@ -9,6 +9,8 @@ using UnityEngine.InputSystem;
 public class PlayerTool : MonoBehaviour
 {
     
+    
+    
     [SerializeField] [BoxGroup("References")] private GameObject _tool;
     [SerializeField] [BoxGroup("References")] private Animator _toolAnimator;
     [SerializeField] [BoxGroup("References")] private Camera _camera;

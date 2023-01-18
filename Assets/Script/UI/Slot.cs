@@ -9,7 +9,7 @@ public class Slot : MonoBehaviour
     [SerializeField] [BoxGroup("References")]
     private GameObject _toolSprite;
     
-    private GTool _currentTool;
+    [SerializeField] private GTool _currentTool;
 
     public void SetTool(GTool tool)
     {
