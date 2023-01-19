@@ -1,5 +1,5 @@
 ﻿using System;
-using Script.Tools;
+using Script.Items;
 
 namespace Script.Database
 {
@@ -7,9 +7,9 @@ namespace Script.Database
     public struct Tools
     {
 
-        public GTool AXE;
-        public GTool PICKAXE;
-        public GTool SWORD;
+        public Item AXE;
+        public Item PICKAXE;
+        public Item SWORD;
 
     }
 }

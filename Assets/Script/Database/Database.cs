@@ -11,6 +11,8 @@ public class Database : MonoBehaviour
 
     public Tools TOOLS;
 
+    public Camera MAIN_CAMERA;
+
     private void Awake()
     {
 

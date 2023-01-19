@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Script.Items;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -9,7 +10,7 @@ public class UIManager : MonoBehaviour
 
     public static UIManager Instance;
 
-    [SerializeField] [Foldout("Views")] private ViewHUD _viewHUD;
+    [SerializeField] [Foldout("Views")] public ViewHUD _viewHUD;
     
     private View _currentView;
     

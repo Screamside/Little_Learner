@@ -42,10 +42,15 @@ public class PlayerMotor : MonoBehaviour
 
         _currentVelocity = _rigidbody2D.velocity;
 
+        FlipSprite();
+        
+    }
+
+    private void FlipSprite()
+    {
         float middle = Screen.width / 2;
 
         _spriteRenderer.flipX = !(Mouse.current.position.ReadValue().x > middle);
-        
     }
     
     private void FixedUpdate()
