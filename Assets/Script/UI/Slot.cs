@@ -8,7 +8,7 @@ public class Slot : MonoBehaviour
 {
 
     [SerializeField] [BoxGroup("References")] private Image _toolSprite;
-    
+    [SerializeField] [BoxGroup("References")] private Image _slotSprite;
     [SerializeField] private Item _currentItem;
 
     public bool isEmpty
@@ -26,6 +26,15 @@ public class Slot : MonoBehaviour
         }
         
         return this;
+    }
+
+    public Slot SetSprite(Sprite newSprite)
+    {
+
+        _slotSprite.sprite = newSprite;
+
+        return this;
+
     }
 
 }

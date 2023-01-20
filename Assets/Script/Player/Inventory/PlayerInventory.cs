@@ -2,55 +2,99 @@
 using System.Collections.Generic;
 using NaughtyAttributes;
 using Script.Events;
+using Script.Input;
 using Script.Items;
 using UnityEditor;
 using UnityEngine;
 
-    public class Inventory : MonoBehaviour
+    public class PlayerInventory : MonoBehaviour
     {
         
         [BoxGroup("Debug")] [SerializeField] private Item[] _inventoryList;
-        [BoxGroup("Debug")] [SerializeField] [ReadOnly] private Item _selectedItem;
+        [BoxGroup("Debug")] [SerializeField] [ReadOnly] private int _selectedSlot;
 
         public Item[] inventoryList
         {
             get => _inventoryList;
         }
-        public Item selectedItem
+        public int selectedSlot
         {
-            get => _selectedItem;
+            get => _selectedSlot;
             set
             {
-                Database.Instance.EVENTS.OnPlayerChangeSelectedItem.Invoke(value);
-                _selectedItem = value;
+                Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(value);
+                _selectedSlot = value;
             }
         }
 
         private void Awake()
         {
             
+            InputManager.Instance.OnClientMouseScrollUp.AddListener(UpdateSelectedItemUp);
+            InputManager.Instance.OnClientMouseScrollDown.AddListener(UpdateSelectedItemDown);
+            
         }
 
-        public void Increase(int count)
+        private void UpdateSelectedItemUp()
         {
-            Array.Resize(ref _inventoryList, _inventoryList.Length + count);
+
+            if (_selectedSlot == 0)
+            {
+                return;
+            }
+
+            _selectedSlot--;
+            Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_selectedSlot);
+
+        }
+
+        private void UpdateSelectedItemDown()
+        {
+
+            if (_selectedSlot >= (_inventoryList.Length - 1))
+            {
+                return;
+            }
+
+            _selectedSlot++;
+            Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_selectedSlot);
+
+        }
+        
+        [Button()]
+        public void Increase()
+        {
+            
+            Array.Resize(ref _inventoryList, _inventoryList.Length+1);
             Database.Instance.EVENTS.OnInventorySizeChanged.Invoke(_inventoryList);
+            
+            if (_inventoryList.Length == 1)
+            {
+                Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_selectedSlot);
+            }
+            
         }
-
-        public void Decrease(int count)
+        
+        [Button()]
+        public void Decrease()
         {
-            if (_inventoryList.Length > 0)
+            if (_inventoryList.Length > 1)
             {
                 RemoveItem(_inventoryList.Length-1);
-                Debug.Log(_inventoryList.Length - count);
+                Array.Resize(ref _inventoryList, _inventoryList.Length-1);
                 Database.Instance.EVENTS.OnInventorySizeChanged.Invoke(_inventoryList);
-                Array.Resize(ref _inventoryList, _inventoryList.Length - count);
-                
             }
             else
             {
                 Debug.Log("Inventory has no space do decrease.");
             }
+
+            if (_selectedSlot > (_inventoryList.Length-1))
+            {
+                _selectedSlot = _inventoryList.Length-1;
+                Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_selectedSlot);
+            }
+            
         }
 
         public void AddItem(Item item)
@@ -64,6 +108,8 @@ using UnityEngine;
                     return;
                 }
             }
+            
+            Debug.Log("Inventory is full.");
         }
 
         public void RemoveItem(int slot)
@@ -75,21 +121,8 @@ using UnityEngine;
             }
         }
         
-        [Button()]
-        private void AddSlot()
-        {
-            Increase(1);
-        }
-        [Button()]
-        private void RemSlot()
-        {
-            Decrease(1);
-        }
         
-        [Button()]
-        private void AddItem()
-        {
-            AddItem(Database.Instance.TOOLS.AXE);
-        }
+        
+        
         
     }

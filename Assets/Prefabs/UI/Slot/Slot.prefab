@@ -203,4 +203,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toolSprite: {fileID: 3865405049543161553}
-  _currentTool: {fileID: 0}
+  _slotSprite: {fileID: 3865405050769578318}
+  _currentItem: {fileID: 0}

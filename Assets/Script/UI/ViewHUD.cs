@@ -7,16 +7,19 @@ using UnityEngine;
 
 public class ViewHUD : View
 {
-    private Slot[] slots = new Slot[0];
+    [SerializeField]private Slot[] slots = new Slot[0];
 
     [SerializeField] [BoxGroup("References")] private GameObject _slotPrefab;
     [SerializeField] [BoxGroup("References")] private GameObject _hotbar;
+    [SerializeField] [BoxGroup("References")] private Sprite _slotSprite;
+    [SerializeField] [BoxGroup("References")] private Sprite _selectedSlotSprite;
 
     private void Awake()
     {
 
         Database.Instance.EVENTS.OnInventorySizeChanged.AddListener(UpdateInventorySize);
         Database.Instance.EVENTS.OnInventoryItemChanged.AddListener(UpdateInventoryItems);
+        Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.AddListener(UpdateSelectedSlot);
 
     }
 
@@ -26,10 +29,8 @@ public class ViewHUD : View
         {
             //Decreased
             Destroy(slots[^1].gameObject);
-            Array.Resize(ref slots, inventory.Length-1);
-            
-        }
-        else
+            Array.Resize(ref slots, inventory.Length);
+        }else if (inventory.Length > slots.Length)
         {
             //Increased
             Array.Resize(ref slots, inventory.Length);
@@ -39,10 +40,18 @@ public class ViewHUD : View
 
     private void UpdateInventoryItems(Item[] inventory, int slot)
     {
-        Debug.Log(inventory[slot]);
-        Debug.Log(slots[slot]);
-        
         slots[slot].SetItem(inventory[slot]);
+    }
+
+    private void UpdateSelectedSlot(int slotNumber)
+    {
+        foreach (Slot slot in slots)
+        {
+            slot.SetSprite(_slotSprite);
+        }
+
+        slots[slotNumber].SetSprite(_selectedSlotSprite);
+
     }
 
     public override View HideView()
