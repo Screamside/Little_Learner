@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Script.Items
 {
     [CreateAssetMenu(fileName = "Item", menuName = "Items", order = 0)]
-    public abstract class Item : ScriptableObject
+    public class Item : ScriptableObject
     {
         
         [ShowAssetPreview] public Sprite Sprite;

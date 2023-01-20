@@ -20,18 +20,12 @@ public class Slot : MonoBehaviour
     {
         _currentItem = tool;
 
-        _toolSprite.sprite = _currentItem.Sprite;
+        if (tool is not null)
+        {
+            _toolSprite.sprite = _currentItem.Sprite;
+        }
         
         return this;
     }
 
-    public Slot CleanSlot()
-    {
-        _currentItem = null;
-
-        _toolSprite.sprite = null;
-
-        return this;
-    }
-    
 }

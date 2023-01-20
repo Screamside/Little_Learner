@@ -45,4 +45,25 @@ namespace Script.Events
         }
 
     }
+    
+    public class GEvent<T,B>
+    {
+        private event Action<T, B> Action = delegate {  };
+        
+        public void AddListener(Action<T, B> action)
+        {
+            Action += action;
+        }
+
+        public void RemoveListener(Action<T, B> action)
+        {
+            Action -= action;
+        }
+
+        public void Invoke(T obj, B obj2)
+        {
+            Action?.Invoke(obj, obj2);
+        }
+
+    }
 }

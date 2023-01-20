@@ -13,6 +13,8 @@ public class Database : MonoBehaviour
 
     public Camera MAIN_CAMERA;
 
+    public Events EVENTS;
+
     private void Awake()
     {
 
@@ -24,6 +26,8 @@ public class Database : MonoBehaviour
         {
             Instance = this;
         }
-        
+
+        EVENTS = new();
+
     }
 }
