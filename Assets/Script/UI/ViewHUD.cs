@@ -43,7 +43,7 @@ public class ViewHUD : View
         slots[slot].SetItem(inventory[slot]);
     }
 
-    private void UpdateSelectedSlot(int slotNumber)
+    private void UpdateSelectedSlot(Item[] inventoryList, int slotNumber)
     {
         foreach (Slot slot in slots)
         {

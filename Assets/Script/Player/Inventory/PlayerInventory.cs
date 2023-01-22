@@ -6,8 +6,9 @@ using Script.Input;
 using Script.Items;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-    public class PlayerInventory : MonoBehaviour
+public class PlayerInventory : MonoBehaviour
     {
         
         [BoxGroup("Debug")] [SerializeField] private Item[] _inventoryList;
@@ -22,7 +23,7 @@ using UnityEngine;
             get => _selectedSlot;
             set
             {
-                Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(value);
+                Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_inventoryList, value);
                 _selectedSlot = value;
             }
         }
@@ -32,6 +33,7 @@ using UnityEngine;
             
             InputManager.Instance.OnClientMouseScrollUp.AddListener(UpdateSelectedItemUp);
             InputManager.Instance.OnClientMouseScrollDown.AddListener(UpdateSelectedItemDown);
+            Increase();
             
         }
 
@@ -44,7 +46,7 @@ using UnityEngine;
             }
 
             _selectedSlot--;
-            Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_selectedSlot);
+            Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_inventoryList, _selectedSlot);
 
         }
 
@@ -57,7 +59,7 @@ using UnityEngine;
             }
 
             _selectedSlot++;
-            Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_selectedSlot);
+            Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_inventoryList, _selectedSlot);
 
         }
         
@@ -70,7 +72,7 @@ using UnityEngine;
             
             if (_inventoryList.Length == 1)
             {
-                Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_selectedSlot);
+                Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_inventoryList, _selectedSlot);
             }
             
         }
@@ -92,7 +94,7 @@ using UnityEngine;
             if (_selectedSlot > (_inventoryList.Length-1))
             {
                 _selectedSlot = _inventoryList.Length-1;
-                Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_selectedSlot);
+                Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_inventoryList, _selectedSlot);
             }
             
         }
@@ -105,6 +107,7 @@ using UnityEngine;
                 {
                     _inventoryList[i] = item;
                     Database.Instance.EVENTS.OnInventoryItemChanged.Invoke(_inventoryList, i);
+                    Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.Invoke(_inventoryList, _selectedSlot);
                     return;
                 }
             }
@@ -119,6 +122,31 @@ using UnityEngine;
                 _inventoryList[slot] = null;
                 Database.Instance.EVENTS.OnInventoryItemChanged.Invoke(_inventoryList, slot);
             }
+        }
+
+        [Button()]
+        private void Item()
+        {
+
+            var n = Random.Range(1, 4);
+            
+
+            switch (n)
+            {
+                
+                case 1:
+                    AddItem(Database.Instance.TOOLS.AXE);
+                    break;
+                    
+                case 2:    
+                    AddItem(Database.Instance.TOOLS.SWORD);
+                    break;
+                    
+                case 3:    
+                    AddItem(Database.Instance.TOOLS.PICKAXE);
+                    break;
+            }
+            
         }
         
         

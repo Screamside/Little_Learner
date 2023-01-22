@@ -245,8 +245,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458e09e4a7b9cf04fba524e7015ac877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slots: []
   _slotPrefab: {fileID: 3865405050769578317, guid: f9f776bf9def6df41823250d6bf62e68, type: 3}
   _hotbar: {fileID: 2045726685}
+  _slotSprite: {fileID: 21300000, guid: 3db353b91640dec4d9f6c5ae610f25c8, type: 3}
+  _selectedSlotSprite: {fileID: 21300000, guid: 2107dd5d980081942a6c70e9c0505763, type: 3}
 --- !u!213 &517143409
 Sprite:
   m_ObjectHideFlags: 0
@@ -870,7 +873,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 156d35bfca168c144b26e20987082879, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -878,7 +881,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &655856878
@@ -896,8 +899,8 @@ MonoBehaviour:
   use:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Script.Player.PlayerStats, Assembly-CSharp
+      - m_Target: {fileID: 1953033775}
+        m_TargetAssemblyTypeName: PlayerHand, Assembly-CSharp
         m_MethodName: ResetAttackAnimation
         m_Mode: 1
         m_Arguments:
@@ -45389,7 +45392,8 @@ GameObject:
   - component: {fileID: 1953033768}
   - component: {fileID: 1953033772}
   - component: {fileID: 1953033767}
-  - component: {fileID: 1953033773}
+  - component: {fileID: 1953033774}
+  - component: {fileID: 1953033775}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -45532,7 +45536,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &1953033773
+--- !u!114 &1953033774
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45545,7 +45549,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventoryList: []
-  _selectedItem: {fileID: 0}
+  _selectedSlot: 0
+--- !u!114 &1953033775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953033766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50ff7cdc4104a7ab6fb57b5cd37d787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemInHand: {fileID: 0}
+  _slot: {fileID: 655856875}
+  _playerHand: {fileID: 538990664}
 --- !u!1 &1956551595
 GameObject:
   m_ObjectHideFlags: 0

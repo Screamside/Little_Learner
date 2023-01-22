@@ -2,13 +2,14 @@
 using NaughtyAttributes;
 using Script.Input;
 using Script.Items;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-    [Serializable]
-    public class PlayerHand
+    public class PlayerHand : MonoBehaviour
     {
         
+        [SerializeField] private Item _itemInHand;
         public Item itemInHand
         {
             get => _itemInHand;
@@ -19,20 +20,40 @@ using UnityEngine.InputSystem;
             }
         }
 
-        [SerializeField] [BoxGroup("References")] private SpriteRenderer _slotSpriteRenderer;
-        [SerializeField] [BoxGroup("References")] private Animator _handAnimator;
-        [SerializeField] [BoxGroup("References")] private Transform _slotTransform;
+        [SerializeField] [BoxGroup("References")] private Transform _slot;
         [SerializeField] [BoxGroup("References")] private Transform _playerHand;
 
+
+        private SpriteRenderer _slotSpriteRenderer;
+        private Animator _slotAnimator;
+        
         private bool _isAttacking = false;
         private Camera _camera;
-        [SerializeField] private Item _itemInHand;
+        
 
-        public void Initialize()
+
+        private void Awake()
         {
             _camera = Database.Instance.MAIN_CAMERA;
+            _slotSpriteRenderer = _slot.GetComponent<SpriteRenderer>();
+            _slotAnimator = _slot.GetComponent<Animator>();
             
             InputManager.Instance.OnClientMouseLeftClick.AddListener(PlayAttackAnimation);
+            
+            Database.Instance.EVENTS.OnPlayerChangeSelectedSlot.AddListener(UpdateHandItemSprite);
+        }
+
+        private void UpdateHandItemSprite(Item[] inventory, int slot)
+        {
+
+            if (inventory[slot] is null)
+            {
+                _slotSpriteRenderer.sprite = null;
+                return;
+            }
+            
+            _slotSpriteRenderer.sprite = inventory[slot].Sprite;
+            
         }
 
         private void PlayAttackAnimation()
@@ -41,10 +62,10 @@ using UnityEngine.InputSystem;
             if(_isAttacking) {return;}
             
             _isAttacking = true;
-            _handAnimator.Play("Attack");
+            _slotAnimator.Play("Attack");
             
         }
-
+        
         public void ResetAttackAnimation()
         {
             _isAttacking = false;
